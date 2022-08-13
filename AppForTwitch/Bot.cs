@@ -15,7 +15,7 @@ namespace AppForTwitch
         private string botChannel = null;
         private string streamChannel = null;
 
-        private TwitchClient client;
+        private TwitchClient client = null;
         public Bot(string token, string bot, string streamer)
         {
             this.token = token;
@@ -42,20 +42,46 @@ namespace AppForTwitch
 
         }
 
+        public void Stop()
+        {
+            if (client != null)
+            {
+                client.Disconnect();
+                client = null;
+            }
+        }
+
+        public bool IsConnected()
+        {
+            return client.IsConnected;
+        }
+
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {
             switch (e.Command.CommandText.ToLower())
             {
-                case "pc":
-                    var answer = $"@{e.Command.ChatMessage.Username}, TestPC";
+                case "число":
+                    Random rnd = new Random();
+                    var result = rnd.Next(1, 10);
+                    var answer = $"@{e.Command.ChatMessage.Username}, число {result}";
                     client.SendMessage(e.Command.ChatMessage.Channel, answer);
                         break;
             }
         }
 
+        public void Send()
+        {
+            var message = new List<string>() { "1", "2", "3" };
+            foreach(string mes in message)
+            {
+                client.SendMessage(client.GetJoinedChannel(streamChannel), mes);
+
+            }
+        }
+
         private void Client_OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
         {
-            client.SendMessage(e.Channel, "TestJoin");
+            client.SendMessage(e.Channel, "VoHiYo");
         }
 
     }
