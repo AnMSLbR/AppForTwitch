@@ -83,21 +83,41 @@ namespace AppForTwitch
             if (bot == null)
             {
                 bot = new Bot(tb_Token.Text.ToLower(), tb_BotChannelName.Text.ToLower(), tb_StreamChannelName.Text.ToLower());
-                bot.OnChatMentionReceived += Bot_OnChatMentionReceived;
+                bot.OnChatBotMessageReceived += Bot_OnChatBotMessageReceived;
+                bot.OnChatBotMessageSended += Bot_OnChatBotMessageSended;
+                bot.OnChatMentionMessageReceived += Bot_OnChatMentionMessageReceived;
             }
             else
                 bot.Stop();
             bot.Start();
         }
 
-        private void Bot_OnChatMentionReceived(object sender, EventArgs e)
+        private void Bot_OnChatBotMessageReceived(object sender, EventArgs e)
         {
-            this.Invoke(new Action(()=>
+
+            this.Invoke(new Action(() =>
             {
-                tb_MyChat.Text += DateTime.Now.ToString("HH:mm:ss") + $" {bot.Mentioner}: {bot.MentionText}\r\n";
-                if (toggleB_Sound.Checked)
-                    sound.Play();
+                tb_MyChat.Text += DateTime.Now.ToString("HH:mm:ss") + $" {bot.MessageSender}: {bot.SendedMessage}\r\n";
             }));
+
+        }
+
+        private void Bot_OnChatMentionMessageReceived(object sender, EventArgs e)
+        {
+            if (bot.MessageSender.ToLower() != bot.BotChannel)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    tb_MyChat.Text += DateTime.Now.ToString("HH:mm:ss") + $" {bot.MessageSender}: {bot.SendedMessage}\r\n";
+                    if (toggleB_Sound.Checked)
+                        sound.Play();
+                }));
+            }
+        }
+
+        private void Bot_OnChatBotMessageSended(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(() => tb_MyChat.Text += DateTime.Now.ToString("HH:mm:ss") + $" {bot.MessageSender}: {bot.SendedMessage}\r\n"));
         }
 
         private void RememberInitializationData()

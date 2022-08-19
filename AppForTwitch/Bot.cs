@@ -16,21 +16,21 @@ namespace AppForTwitch
         private string botChannel = null;
         private string streamChannel = null;
 
+        public string BotChannel { get => botChannel; }
+
         private TwitchClient client = null;
 
-        private string mentionText = null;
-        public string MentionText
+        private string sendedMessage = null;
+        public string SendedMessage 
         {
-            get { return mentionText; }
+            get { return sendedMessage; }
         }
+        private string messageSender = null;
+        public string MessageSender { get => messageSender; }
 
-        private string mentioner = null;
-        public string Mentioner
-        {
-            get { return mentioner; }
-        }
-
-        public event EventHandler OnChatMentionReceived;
+        public event EventHandler OnChatMentionMessageReceived;
+        public event EventHandler OnChatBotMessageSended;
+        public event EventHandler OnChatBotMessageReceived;
         public Bot(string token, string bot, string streamer)
         {
             this.token = token;
@@ -46,7 +46,9 @@ namespace AppForTwitch
             {
                 client.Initialize(credentials, streamChannel);
                 client.OnChatCommandReceived += Client_OnChatCommandReceived;
-                client.OnMessageReceived += Client_OnMessageReceived;
+                client.OnMessageSent += Client_OnBotMessageSent;
+                client.OnMessageReceived += Client_OnBotMessageReceived;
+                client.OnMessageReceived += Client_OnMentionMessageReceived;
                 client.OnJoinedChannel += Client_OnJoinedChannel;
                 client.Connect();
             }
@@ -56,15 +58,35 @@ namespace AppForTwitch
             }
         }
 
-        private void Client_OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
+        private void Client_OnBotMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
         {
-            if(e.ChatMessage.Message.ToLower().Contains(botChannel) || e.ChatMessage.Message.ToLower().Contains("@" + botChannel))
+            if(e.ChatMessage.DisplayName.ToLower() == botChannel)
             {
-                mentionText = null;
-                mentionText = e.ChatMessage.Message;
-                mentioner = null;
-                mentioner = e.ChatMessage.DisplayName;
-                OnChatMentionReceived.Invoke(this, new EventArgs());
+                sendedMessage = e.ChatMessage.Message;
+                messageSender = e.ChatMessage.DisplayName;
+                OnChatBotMessageReceived(this, new EventArgs());
+                Thread.Sleep(100);
+            }
+        }
+
+        private void Client_OnBotMessageSent(object sender, TwitchLib.Client.Events.OnMessageSentArgs e)
+        {
+            if (e.SentMessage.DisplayName.ToLower() == botChannel)
+            {
+                sendedMessage = e.SentMessage.Message;
+                messageSender = e.SentMessage.DisplayName;
+                OnChatBotMessageSended.Invoke(this, new EventArgs());
+                Thread.Sleep(100);
+            }
+        }
+
+        private void Client_OnMentionMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
+        {
+            if (e.ChatMessage.Message.ToLower().Contains(botChannel) || e.ChatMessage.Message.ToLower().Contains("@" + botChannel))
+            {
+                sendedMessage = e.ChatMessage.Message;
+                messageSender = e.ChatMessage.DisplayName;
+                OnChatMentionMessageReceived.Invoke(this, new EventArgs());
                 Thread.Sleep(100);
             }
         }
@@ -104,7 +126,7 @@ namespace AppForTwitch
 
         public void Send(string message)
         {
-                client.SendMessage(client.GetJoinedChannel(streamChannel), message);
+            client.SendMessage(client.GetJoinedChannel(streamChannel), message);
         }
 
         private void Client_OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
