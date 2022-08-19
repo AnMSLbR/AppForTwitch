@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\kk.png" />
+    <None Remove="Resources\mention_notification.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\kk.png" />
+    <EmbeddedResource Include="Resources\mention_notification.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Windows.Extensions" Version="6.0.0" />
     <PackageReference Include="TwitchLib" Version="3.3.0" />
   </ItemGroup>
 

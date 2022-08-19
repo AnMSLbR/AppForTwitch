@@ -69,5 +69,14 @@ namespace AppForTwitch.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.IO.UnmanagedMemoryStream, аналогичного System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream mention_notification {
+            get {
+                return ResourceManager.GetStream("mention_notification", resourceCulture);
+            }
+        }
     }
 }

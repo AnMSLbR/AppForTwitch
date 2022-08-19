@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TwitchLib.Client;
 using TwitchLib.Client.Models;
+using System.Threading;
 
 namespace AppForTwitch
 {
@@ -16,13 +17,26 @@ namespace AppForTwitch
         private string streamChannel = null;
 
         private TwitchClient client = null;
+
+        private string mentionText = null;
+        public string MentionText
+        {
+            get { return mentionText; }
+        }
+
+        private string mentioner = null;
+        public string Mentioner
+        {
+            get { return mentioner; }
+        }
+
+        public event EventHandler OnChatMentionReceived;
         public Bot(string token, string bot, string streamer)
         {
             this.token = token;
             this.botChannel = bot;
             this.streamChannel = streamer;
         }
-
 
         public void Start()
         {
@@ -32,6 +46,7 @@ namespace AppForTwitch
             {
                 client.Initialize(credentials, streamChannel);
                 client.OnChatCommandReceived += Client_OnChatCommandReceived;
+                client.OnMessageReceived += Client_OnMessageReceived;
                 client.OnJoinedChannel += Client_OnJoinedChannel;
                 client.Connect();
             }
@@ -39,7 +54,19 @@ namespace AppForTwitch
             {
                 MessageBox.Show(ex.Message, "Error");
             }
+        }
 
+        private void Client_OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
+        {
+            if(e.ChatMessage.Message.ToLower().Contains(botChannel) || e.ChatMessage.Message.ToLower().Contains("@" + botChannel))
+            {
+                mentionText = null;
+                mentionText = e.ChatMessage.Message;
+                mentioner = null;
+                mentioner = e.ChatMessage.DisplayName;
+                OnChatMentionReceived.Invoke(this, new EventArgs());
+                Thread.Sleep(100);
+            }
         }
 
         public void Stop()
@@ -58,25 +85,26 @@ namespace AppForTwitch
 
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {
+            //mentionText = null;
+            //mentionText = e.Command.ChatMessage.Message;
+            //mentioner = null;
+            //mentioner = e.Command.ChatMessage.DisplayName;
+            //OnChatMentionReceived.Invoke(this, new EventArgs());
+            //Thread.Sleep(100);
             switch (e.Command.CommandText.ToLower())
             {
-                case "число":
+                case "roll":
                     Random rnd = new Random();
-                    var result = rnd.Next(1, 10);
-                    var answer = $"@{e.Command.ChatMessage.Username}, число {result}";
+                    var result = rnd.Next(1, 12);
+                    var answer = $"@{e.Command.ChatMessage.DisplayName} выбросил {result}";
                     client.SendMessage(e.Command.ChatMessage.Channel, answer);
                         break;
             }
         }
 
-        public void Send()
+        public void Send(string message)
         {
-            var message = new List<string>() { "1", "2", "3" };
-            foreach(string mes in message)
-            {
-                client.SendMessage(client.GetJoinedChannel(streamChannel), mes);
-
-            }
+                client.SendMessage(client.GetJoinedChannel(streamChannel), message);
         }
 
         private void Client_OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)

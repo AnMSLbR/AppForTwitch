@@ -30,7 +30,6 @@ namespace AppForTwitch
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.lbl_Token = new System.Windows.Forms.Label();
             this.tb_Token = new System.Windows.Forms.TextBox();
             this.lbl_BotChannelName = new System.Windows.Forms.Label();
             this.tb_BotChannelName = new System.Windows.Forms.TextBox();
@@ -38,6 +37,7 @@ namespace AppForTwitch
             this.tb_StreamChannelName = new System.Windows.Forms.TextBox();
             this.tc_Main = new System.Windows.Forms.TabControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.lLbl_Token = new System.Windows.Forms.LinkLabel();
             this.cb_Remember = new System.Windows.Forms.CheckBox();
             this.lbl_Status = new System.Windows.Forms.Label();
             this.lbl_StatusHeader = new System.Windows.Forms.Label();
@@ -46,23 +46,16 @@ namespace AppForTwitch
             this.btn_InsertBotName = new System.Windows.Forms.Button();
             this.btn_InsertStreamerName = new System.Windows.Forms.Button();
             this.tabCommands = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tabChat = new System.Windows.Forms.TabPage();
+            this.lbl_Sound = new System.Windows.Forms.Label();
+            this.toggleB_Sound = new AppForTwitch.Toggle_Button();
+            this.tb_MyChat = new System.Windows.Forms.TextBox();
+            this.tb_Message = new System.Windows.Forms.TextBox();
+            this.btn_Send = new System.Windows.Forms.Button();
             this.tc_Main.SuspendLayout();
             this.tabSettings.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tabChat.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lbl_Token
-            // 
-            this.lbl_Token.AutoSize = true;
-            this.lbl_Token.Font = new System.Drawing.Font("Malgun Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbl_Token.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Token.Location = new System.Drawing.Point(12, 12);
-            this.lbl_Token.Name = "lbl_Token";
-            this.lbl_Token.Size = new System.Drawing.Size(104, 20);
-            this.lbl_Token.TabIndex = 0;
-            this.lbl_Token.Text = "OAuth Token:";
             // 
             // tb_Token
             // 
@@ -117,7 +110,7 @@ namespace AppForTwitch
             // 
             this.tc_Main.Controls.Add(this.tabSettings);
             this.tc_Main.Controls.Add(this.tabCommands);
-            this.tc_Main.Controls.Add(this.tabPage3);
+            this.tc_Main.Controls.Add(this.tabChat);
             this.tc_Main.Font = new System.Drawing.Font("Malgun Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tc_Main.Location = new System.Drawing.Point(-4, -3);
             this.tc_Main.Name = "tc_Main";
@@ -129,6 +122,7 @@ namespace AppForTwitch
             // tabSettings
             // 
             this.tabSettings.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tabSettings.Controls.Add(this.lLbl_Token);
             this.tabSettings.Controls.Add(this.cb_Remember);
             this.tabSettings.Controls.Add(this.lbl_Status);
             this.tabSettings.Controls.Add(this.lbl_StatusHeader);
@@ -138,7 +132,6 @@ namespace AppForTwitch
             this.tabSettings.Controls.Add(this.btn_InsertStreamerName);
             this.tabSettings.Controls.Add(this.tb_Token);
             this.tabSettings.Controls.Add(this.tb_StreamChannelName);
-            this.tabSettings.Controls.Add(this.lbl_Token);
             this.tabSettings.Controls.Add(this.lbl_StreamChannelName);
             this.tabSettings.Controls.Add(this.lbl_BotChannelName);
             this.tabSettings.Controls.Add(this.tb_BotChannelName);
@@ -149,6 +142,18 @@ namespace AppForTwitch
             this.tabSettings.Size = new System.Drawing.Size(584, 335);
             this.tabSettings.TabIndex = 0;
             this.tabSettings.Text = "Settings";
+            // 
+            // lLbl_Token
+            // 
+            this.lLbl_Token.AutoSize = true;
+            this.lLbl_Token.LinkColor = System.Drawing.Color.Violet;
+            this.lLbl_Token.Location = new System.Drawing.Point(12, 12);
+            this.lLbl_Token.Name = "lLbl_Token";
+            this.lLbl_Token.Size = new System.Drawing.Size(104, 20);
+            this.lLbl_Token.TabIndex = 13;
+            this.lLbl_Token.TabStop = true;
+            this.lLbl_Token.Text = "OAuth Token:";
+            this.lLbl_Token.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lLbl_Token_LinkClicked);
             // 
             // cb_Remember
             // 
@@ -168,9 +173,9 @@ namespace AppForTwitch
             this.lbl_Status.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Status.Location = new System.Drawing.Point(63, 306);
             this.lbl_Status.Name = "lbl_Status";
-            this.lbl_Status.Size = new System.Drawing.Size(15, 20);
+            this.lbl_Status.Size = new System.Drawing.Size(73, 20);
             this.lbl_Status.TabIndex = 11;
-            this.lbl_Status.Text = "s";
+            this.lbl_Status.Text = "unknown";
             // 
             // lbl_StatusHeader
             // 
@@ -250,25 +255,77 @@ namespace AppForTwitch
             this.tabCommands.TabIndex = 1;
             this.tabCommands.Text = "Commands";
             // 
-            // tabPage3
+            // tabChat
             // 
-            this.tabPage3.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.tabPage3.Controls.Add(this.button1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 29);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(584, 335);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabChat";
+            this.tabChat.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tabChat.Controls.Add(this.lbl_Sound);
+            this.tabChat.Controls.Add(this.toggleB_Sound);
+            this.tabChat.Controls.Add(this.tb_MyChat);
+            this.tabChat.Controls.Add(this.tb_Message);
+            this.tabChat.Controls.Add(this.btn_Send);
+            this.tabChat.Location = new System.Drawing.Point(4, 29);
+            this.tabChat.Name = "tabChat";
+            this.tabChat.Size = new System.Drawing.Size(584, 335);
+            this.tabChat.TabIndex = 2;
+            this.tabChat.Text = "Chat";
             // 
-            // button1
+            // lbl_Sound
             // 
-            this.button1.Location = new System.Drawing.Point(193, 117);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(151, 51);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Send";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.lbl_Sound.AutoSize = true;
+            this.lbl_Sound.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Sound.Location = new System.Drawing.Point(63, 294);
+            this.lbl_Sound.Name = "lbl_Sound";
+            this.lbl_Sound.Size = new System.Drawing.Size(53, 20);
+            this.lbl_Sound.TabIndex = 4;
+            this.lbl_Sound.Text = "Sound";
+            // 
+            // toggleB_Sound
+            // 
+            this.toggleB_Sound.AutoSize = true;
+            this.toggleB_Sound.Location = new System.Drawing.Point(12, 294);
+            this.toggleB_Sound.MinimumSize = new System.Drawing.Size(45, 22);
+            this.toggleB_Sound.Name = "toggleB_Sound";
+            this.toggleB_Sound.OffBackBorderColor = System.Drawing.SystemColors.Window;
+            this.toggleB_Sound.OffToggleColor = System.Drawing.SystemColors.WindowFrame;
+            this.toggleB_Sound.OnBackBorderColor = System.Drawing.Color.MediumOrchid;
+            this.toggleB_Sound.OnToggleColor = System.Drawing.Color.DarkViolet;
+            this.toggleB_Sound.Size = new System.Drawing.Size(45, 22);
+            this.toggleB_Sound.TabIndex = 3;
+            this.toggleB_Sound.UseVisualStyleBackColor = true;
+            // 
+            // tb_MyChat
+            // 
+            this.tb_MyChat.BackColor = System.Drawing.SystemColors.Window;
+            this.tb_MyChat.Location = new System.Drawing.Point(12, 11);
+            this.tb_MyChat.Multiline = true;
+            this.tb_MyChat.Name = "tb_MyChat";
+            this.tb_MyChat.ReadOnly = true;
+            this.tb_MyChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_MyChat.Size = new System.Drawing.Size(560, 202);
+            this.tb_MyChat.TabIndex = 2;
+            // 
+            // tb_Message
+            // 
+            this.tb_Message.Location = new System.Drawing.Point(12, 223);
+            this.tb_Message.Multiline = true;
+            this.tb_Message.Name = "tb_Message";
+            this.tb_Message.PlaceholderText = "Отправить сообщение";
+            this.tb_Message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_Message.Size = new System.Drawing.Size(560, 54);
+            this.tb_Message.TabIndex = 1;
+            this.tb_Message.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_Message_KeyDown);
+            // 
+            // btn_Send
+            // 
+            this.btn_Send.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Send.Location = new System.Drawing.Point(421, 286);
+            this.btn_Send.Name = "btn_Send";
+            this.btn_Send.Size = new System.Drawing.Size(151, 37);
+            this.btn_Send.TabIndex = 0;
+            this.btn_Send.TabStop = false;
+            this.btn_Send.Text = "Send";
+            this.btn_Send.UseVisualStyleBackColor = false;
+            this.btn_Send.Click += new System.EventHandler(this.btn_Send_Click);
             // 
             // MainForm
             // 
@@ -282,17 +339,18 @@ namespace AppForTwitch
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "TwitchBot";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tc_Main.ResumeLayout(false);
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
+            this.tabChat.ResumeLayout(false);
+            this.tabChat.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lbl_Token;
         private System.Windows.Forms.TextBox tb_Token;
         private System.Windows.Forms.Label lbl_BotChannelName;
         private System.Windows.Forms.TextBox tb_BotChannelName;
@@ -308,8 +366,13 @@ namespace AppForTwitch
         private System.Windows.Forms.Label lbl_Status;
         private System.Windows.Forms.Label lbl_StatusHeader;
         private System.Windows.Forms.CheckBox cb_Remember;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TabPage tabChat;
+        private System.Windows.Forms.Button btn_Send;
+        private System.Windows.Forms.TextBox tb_Message;
+        private System.Windows.Forms.TextBox tb_MyChat;
+        private Toggle_Button toggleB_Sound;
+        private System.Windows.Forms.Label lbl_Sound;
+        private System.Windows.Forms.LinkLabel lLbl_Token;
     }
 }
 

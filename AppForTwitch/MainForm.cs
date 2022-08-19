@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
+using System.Reflection;
+using System.IO;
+using System.Diagnostics;
 
 namespace AppForTwitch
 {
@@ -14,11 +18,23 @@ namespace AppForTwitch
     {
 
         private Bot bot;
+        private SoundPlayer sound;
         public MainForm()
         {
             InitializeComponent();
             UpdateStatusLabel();
             UpdateInitializationData();
+            SetSoundButtonStatus();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            Stream str = Properties.Resources.mention_notification;
+            sound = new SoundPlayer(str);
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSoundButtonStatus();
         }
 
         private void btn_InsertToken_Click(object sender, EventArgs e)
@@ -65,10 +81,23 @@ namespace AppForTwitch
         private void StartBot()
         {
             if (bot == null)
-                bot = new Bot(tb_Token.Text, tb_BotChannelName.Text, tb_StreamChannelName.Text);
+            {
+                bot = new Bot(tb_Token.Text.ToLower(), tb_BotChannelName.Text.ToLower(), tb_StreamChannelName.Text.ToLower());
+                bot.OnChatMentionReceived += Bot_OnChatMentionReceived;
+            }
             else
                 bot.Stop();
             bot.Start();
+        }
+
+        private void Bot_OnChatMentionReceived(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(()=>
+            {
+                tb_MyChat.Text += DateTime.Now.ToString("HH:mm:ss") + $" {bot.Mentioner}: {bot.MentionText}\r\n";
+                if (toggleB_Sound.Checked)
+                    sound.Play();
+            }));
         }
 
         private void RememberInitializationData()
@@ -86,6 +115,17 @@ namespace AppForTwitch
             Properties.Settings.Default.BotChannelName = "";
             Properties.Settings.Default.StreamChannelName = "";
             Properties.Settings.Default.RememberCheckBoxFlag = cb_Remember.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void SetSoundButtonStatus()
+        {
+            toggleB_Sound.Checked = Properties.Settings.Default.SoundButtonStatus;
+        }
+
+        private void SaveSoundButtonStatus()
+        {
+            Properties.Settings.Default.SoundButtonStatus = toggleB_Sound.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -112,9 +152,37 @@ namespace AppForTwitch
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SendMessage()
         {
-            bot.Send();
+            if (bot != null && bot.IsConnected())
+            {
+                bot.Send(tb_Message.Text);
+                tb_Message.Clear();
+            }
+        }
+
+        private void btn_Send_Click(object sender, EventArgs e)
+        {
+            SendMessage();
+        }
+
+        private void tb_Message_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                SendMessage();
+            }
+        }
+
+        private void lLbl_Token_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ProcessStartInfo sInfo = new ProcessStartInfo("https://www.twitchapps.com/tmi/")
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(sInfo);
         }
     }
 }

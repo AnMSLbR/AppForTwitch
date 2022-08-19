@@ -70,5 +70,17 @@ namespace AppForTwitch.Properties {
                 this["RememberCheckBoxFlag"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SoundButtonStatus {
+            get {
+                return ((bool)(this["SoundButtonStatus"]));
+            }
+            set {
+                this["SoundButtonStatus"] = value;
+            }
+        }
     }
 }
