@@ -176,7 +176,10 @@ namespace AppForTwitch
         {
             if (bot != null && bot.IsConnected())
             {
-                bot.Send(tb_Message.Text);
+                for (int i = 0; i < Convert.ToInt32(roundedTB_Repeats.Texts); i++)
+                {
+                    bot.Send(tb_Message.Text);
+                }
                 tb_Message.Clear();
             }
         }
@@ -203,6 +206,31 @@ namespace AppForTwitch
                 Verb = "open"
             };
             Process.Start(sInfo);
+        }
+
+        private void roundedTB_Repeats_Leave(object sender, EventArgs e)
+        {
+            int repeats;
+            if (Int32.TryParse(roundedTB_Repeats.Texts, out repeats))
+            {
+                if (repeats < 1)
+                    roundedTB_Repeats.Texts = "1";
+                else if (repeats > 999)
+                    roundedTB_Repeats.Texts = "999";
+            }
+            else
+            {
+                roundedTB_Repeats.Texts = "1";
+            }
+        }
+
+        private void roundedTB_Repeats_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char key = e.KeyChar;
+            if (!Char.IsDigit(key) && key != 8)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

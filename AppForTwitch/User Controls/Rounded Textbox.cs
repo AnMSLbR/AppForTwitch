@@ -64,6 +64,11 @@ namespace AppForTwitch.User_Controls
             get => textBox.TextAlign;
             set => textBox.TextAlign = value;
         }
+        public int MaxTextLength
+        {
+            get => textBox.MaxLength;
+            set => textBox.MaxLength = value;
+        }
 
         public Color BorderFocusColor { get => borderFocusColor; set => borderFocusColor = value; }
         public int BorderRadius

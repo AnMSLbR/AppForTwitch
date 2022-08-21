@@ -47,6 +47,8 @@ namespace AppForTwitch
             this.btn_InsertStreamerName = new System.Windows.Forms.Button();
             this.tabCommands = new System.Windows.Forms.TabPage();
             this.tabChat = new System.Windows.Forms.TabPage();
+            this.lbl_Repeats = new System.Windows.Forms.Label();
+            this.roundedTB_Repeats = new AppForTwitch.User_Controls.Rounded_Textbox();
             this.lbl_Sound = new System.Windows.Forms.Label();
             this.toggleB_Sound = new AppForTwitch.Toggle_Button();
             this.tb_MyChat = new System.Windows.Forms.TextBox();
@@ -258,6 +260,8 @@ namespace AppForTwitch
             // tabChat
             // 
             this.tabChat.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tabChat.Controls.Add(this.lbl_Repeats);
+            this.tabChat.Controls.Add(this.roundedTB_Repeats);
             this.tabChat.Controls.Add(this.lbl_Sound);
             this.tabChat.Controls.Add(this.toggleB_Sound);
             this.tabChat.Controls.Add(this.tb_MyChat);
@@ -268,6 +272,38 @@ namespace AppForTwitch
             this.tabChat.Size = new System.Drawing.Size(584, 335);
             this.tabChat.TabIndex = 2;
             this.tabChat.Text = "Chat";
+            // 
+            // lbl_Repeats
+            // 
+            this.lbl_Repeats.AutoSize = true;
+            this.lbl_Repeats.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Repeats.Location = new System.Drawing.Point(339, 294);
+            this.lbl_Repeats.Name = "lbl_Repeats";
+            this.lbl_Repeats.Size = new System.Drawing.Size(62, 20);
+            this.lbl_Repeats.TabIndex = 6;
+            this.lbl_Repeats.Text = "Repeats";
+            // 
+            // roundedTB_Repeats
+            // 
+            this.roundedTB_Repeats.BackColor = System.Drawing.SystemColors.Window;
+            this.roundedTB_Repeats.BorderColor = System.Drawing.SystemColors.ScrollBar;
+            this.roundedTB_Repeats.BorderFocusColor = System.Drawing.Color.MediumOrchid;
+            this.roundedTB_Repeats.BorderRadius = 15;
+            this.roundedTB_Repeats.BorderSize = 2;
+            this.roundedTB_Repeats.Font = new System.Drawing.Font("Malgun Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.roundedTB_Repeats.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.roundedTB_Repeats.Location = new System.Drawing.Point(277, 289);
+            this.roundedTB_Repeats.Margin = new System.Windows.Forms.Padding(4);
+            this.roundedTB_Repeats.MaxTextLength = 3;
+            this.roundedTB_Repeats.Multiline = false;
+            this.roundedTB_Repeats.Name = "roundedTB_Repeats";
+            this.roundedTB_Repeats.Padding = new System.Windows.Forms.Padding(14, 5, 14, 5);
+            this.roundedTB_Repeats.Size = new System.Drawing.Size(61, 31);
+            this.roundedTB_Repeats.TabIndex = 5;
+            this.roundedTB_Repeats.Texts = "1";
+            this.roundedTB_Repeats.TextsAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.roundedTB_Repeats.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.roundedTB_Repeats_KeyPress);
+            this.roundedTB_Repeats.Leave += new System.EventHandler(this.roundedTB_Repeats_Leave);
             // 
             // lbl_Sound
             // 
@@ -373,6 +409,8 @@ namespace AppForTwitch
         private Toggle_Button toggleB_Sound;
         private System.Windows.Forms.Label lbl_Sound;
         private System.Windows.Forms.LinkLabel lLbl_Token;
+        private User_Controls.Rounded_Textbox roundedTB_Repeats;
+        private System.Windows.Forms.Label lbl_Repeats;
     }
 }
 
