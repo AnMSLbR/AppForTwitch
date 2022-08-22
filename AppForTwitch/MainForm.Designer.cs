@@ -339,13 +339,14 @@ namespace AppForTwitch
             this.tb_MyChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_MyChat.Size = new System.Drawing.Size(560, 202);
             this.tb_MyChat.TabIndex = 2;
+            this.tb_MyChat.TextChanged += new System.EventHandler(this.tb_MyChat_TextChanged);
             // 
             // tb_Message
             // 
             this.tb_Message.Location = new System.Drawing.Point(12, 223);
             this.tb_Message.Multiline = true;
             this.tb_Message.Name = "tb_Message";
-            this.tb_Message.PlaceholderText = "Отправить сообщение";
+            this.tb_Message.PlaceholderText = "Sand a message";
             this.tb_Message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_Message.Size = new System.Drawing.Size(560, 54);
             this.tb_Message.TabIndex = 1;

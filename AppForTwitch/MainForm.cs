@@ -232,5 +232,11 @@ namespace AppForTwitch
                 e.Handled = true;
             }
         }
+
+        private void tb_MyChat_TextChanged(object sender, EventArgs e)
+        {
+            tb_MyChat.SelectionStart = tb_MyChat.Text.Length;
+            tb_MyChat.ScrollToCaret();
+        }
     }
 }
