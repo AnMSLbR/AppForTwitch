@@ -88,7 +88,13 @@ namespace AppForTwitch
                 bot.OnChatMentionMessageReceived += Bot_OnChatMentionMessageReceived;
             }
             else
+            {
                 bot.Stop();
+                bot = new Bot(tb_Token.Text.ToLower(), tb_BotChannelName.Text.ToLower(), tb_StreamChannelName.Text.ToLower());
+                bot.OnChatBotMessageReceived += Bot_OnChatBotMessageReceived;
+                bot.OnChatBotMessageSended += Bot_OnChatBotMessageSended;
+                bot.OnChatMentionMessageReceived += Bot_OnChatMentionMessageReceived;
+            }
             bot.Start();
         }
 
