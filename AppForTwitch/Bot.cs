@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TwitchLib.Api;
+using TwitchLib.PubSub;
+using TwitchLib.PubSub.Events;
+using TwitchLib.Communication;
+using TwitchLib.Communication.Clients;
+using TwitchLib.Communication.Models;
 using System.Windows.Forms;
 using TwitchLib.Client;
+using TwitchLib.Client.Events;
+using TwitchLib.Client.Enums;
+using TwitchLib.Client.Extensions;
 using TwitchLib.Client.Models;
 using System.Threading;
 
@@ -19,6 +28,7 @@ namespace AppForTwitch
         public string BotChannel { get => botChannel; }
 
         private TwitchClient client = null;
+        private bool isModerator = false;
 
         private string sendedMessage = null;
         public string SendedMessage 
@@ -31,6 +41,7 @@ namespace AppForTwitch
         public event EventHandler OnChatMentionMessageReceived;
         public event EventHandler OnChatBotMessageSended;
         public event EventHandler OnChatBotMessageReceived;
+        public event EventHandler OnRoleChecked;
         public Bot(string token, string bot, string streamer)
         {
             this.token = token;
@@ -45,17 +56,59 @@ namespace AppForTwitch
             try
             {
                 client.Initialize(credentials, streamChannel);
+                client.OnJoinedChannel += Client_OnJoinedChannel;
                 client.OnChatCommandReceived += Client_OnChatCommandReceived;
                 client.OnMessageSent += Client_OnBotMessageSent;
                 client.OnMessageReceived += Client_OnBotMessageReceived;
                 client.OnMessageReceived += Client_OnMentionMessageReceived;
-                client.OnJoinedChannel += Client_OnJoinedChannel;
+
+                client.OnModeratorsReceived += Client_OnModeratorsReceived;
+
+                client.OnMessageReceived += Client_OnSpamReceived;
+
                 client.Connect();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
             }
+        }
+
+        public void Stop()
+        {
+            if (client != null)
+            {
+                try
+                {
+                    client.Disconnect();
+                    client = null;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            }
+        }
+
+        private void Client_OnSpamReceived(object sender, OnMessageReceivedArgs e)
+        {
+            string str = "";
+            if(!e.ChatMessage.IsBroadcaster && !e.ChatMessage.IsModerator)
+            {
+                if (e.ChatMessage.Message.Contains(str))
+                {
+                    client.BanUser(e.ChatMessage.Channel, e.ChatMessage.Username);
+                }
+            }
+        }
+
+        private void Client_OnModeratorsReceived(object sender, OnModeratorsReceivedArgs e)
+        {
+            if (e.Moderators.Contains(botChannel))
+                isModerator = true;
+            else
+                isModerator = false;
+            OnRoleChecked.Invoke(this, new EventArgs());
         }
 
         private void Client_OnBotMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
@@ -91,18 +144,17 @@ namespace AppForTwitch
             }
         }
 
-        public void Stop()
-        {
-            if (client != null)
-            {
-                client.Disconnect();
-                client = null;
-            }
-        }
-
         public bool IsConnected()
         {
             return client.IsConnected;
+        }
+
+        public bool IsModerator()
+        {
+            if (botChannel == streamChannel)
+                return true;
+            else
+                return isModerator;
         }
 
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
@@ -113,12 +165,13 @@ namespace AppForTwitch
             //mentioner = e.Command.ChatMessage.DisplayName;
             //OnChatMentionReceived.Invoke(this, new EventArgs());
             //Thread.Sleep(100);
+            string answer;
             switch (e.Command.CommandText.ToLower())
             {
                 case "roll":
                     Random rnd = new Random();
                     var result = rnd.Next(1, 12);
-                    var answer = $"@{e.Command.ChatMessage.DisplayName} выбросил {result}";
+                    answer = $"@{e.Command.ChatMessage.DisplayName} выбросил {result}";
                     client.SendMessage(e.Command.ChatMessage.Channel, answer);
                         break;
             }
@@ -131,7 +184,8 @@ namespace AppForTwitch
 
         private void Client_OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
         {
-            client.SendMessage(e.Channel, "VoHiYo");
+            client.GetChannelModerators(streamChannel);
+            //client.SendMessage(e.Channel, "VoHiYo");
         }
 
     }

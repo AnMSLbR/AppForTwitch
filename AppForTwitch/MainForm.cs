@@ -11,6 +11,7 @@ using System.Media;
 using System.Reflection;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace AppForTwitch
 {
@@ -86,10 +87,16 @@ namespace AppForTwitch
                 bot.OnChatBotMessageReceived += Bot_OnChatBotMessageReceived;
                 bot.OnChatBotMessageSended += Bot_OnChatBotMessageSended;
                 bot.OnChatMentionMessageReceived += Bot_OnChatMentionMessageReceived;
+                bot.OnRoleChecked += Bot_OnRoleChecked;
             }
             else
                 bot.Stop();
             bot.Start();
+        }
+
+        private void Bot_OnRoleChecked(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(() => UpdateRoleLabel()));
         }
 
         private void Bot_OnChatBotMessageReceived(object sender, EventArgs e)
@@ -238,5 +245,47 @@ namespace AppForTwitch
             tb_MyChat.SelectionStart = tb_MyChat.Text.Length;
             tb_MyChat.ScrollToCaret();
         }
+
+        #region Antispam Tab
+        private void tb_Timeout_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char key = e.KeyChar;
+            if (!Char.IsDigit(key) && key != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void tb_Timeout_Leave(object sender, EventArgs e)
+        {
+            int sec;
+            if (Int32.TryParse(tb_Timeout.Text, out sec))
+            {
+                if (sec < 1)
+                    tb_Timeout.Text = "600";
+            }
+            else
+            {
+                tb_Timeout.Text = "600";
+            }
+
+        }
+
+        private void UpdateRoleLabel()
+        {
+            if (bot.IsModerator())
+            {
+                lbl_Mod.Text = "Moderator";
+            }
+            else
+            {
+                lbl_Mod.Text = "Not a moderator";
+            }
+        }
+        private void btn_Block_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
