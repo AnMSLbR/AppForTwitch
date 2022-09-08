@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwitchLib.Api;
-using TwitchLib.PubSub;
-using TwitchLib.PubSub.Events;
-using TwitchLib.Communication;
-using TwitchLib.Communication.Clients;
-using TwitchLib.Communication.Models;
 using System.Windows.Forms;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
-using TwitchLib.Client.Enums;
 using TwitchLib.Client.Extensions;
 using TwitchLib.Client.Models;
 using System.Threading;
+using System.ComponentModel;
 
 namespace AppForTwitch
 {
@@ -29,14 +20,18 @@ namespace AppForTwitch
 
         private TwitchClient client = null;
         private bool isModerator = false;
+        private string forbiddenText = null;
+        private int timeoutDuration = 0;
+        private bool isBan = false;
 
         private string sendedMessage = null;
-        public string SendedMessage 
-        {
-            get { return sendedMessage; }
-        }
+        public string SendedMessage  { get => sendedMessage; }
+
         private string messageSender = null;
         public string MessageSender { get => messageSender; }
+
+        private BindingList<Command> commandList;
+        public BindingList<Command> CommandList { set => commandList = value; }
 
         public event EventHandler OnChatMentionMessageReceived;
         public event EventHandler OnChatBotMessageSended;
@@ -44,9 +39,9 @@ namespace AppForTwitch
         public event EventHandler OnRoleChecked;
         public Bot(string token, string bot, string streamer)
         {
-            this.token = token;
-            this.botChannel = bot;
-            this.streamChannel = streamer;
+            this.token = token.ToLower();
+            this.botChannel = bot.ToLower();
+            this.streamChannel = streamer.ToLower();
         }
 
         public void Start()
@@ -61,11 +56,8 @@ namespace AppForTwitch
                 client.OnMessageSent += Client_OnBotMessageSent;
                 client.OnMessageReceived += Client_OnBotMessageReceived;
                 client.OnMessageReceived += Client_OnMentionMessageReceived;
-
                 client.OnModeratorsReceived += Client_OnModeratorsReceived;
-
                 client.OnMessageReceived += Client_OnSpamReceived;
-
                 client.Connect();
             }
             catch (Exception ex)
@@ -92,12 +84,16 @@ namespace AppForTwitch
 
         private void Client_OnSpamReceived(object sender, OnMessageReceivedArgs e)
         {
-            string str = "";
-            if(!e.ChatMessage.IsBroadcaster && !e.ChatMessage.IsModerator)
+            if (forbiddenText != null && e.ChatMessage.Message.ToLower().Contains(forbiddenText.ToLower())) 
             {
-                if (e.ChatMessage.Message.Contains(str))
+                if (!e.ChatMessage.IsBroadcaster && !e.ChatMessage.IsModerator)
                 {
-                    client.BanUser(e.ChatMessage.Channel, e.ChatMessage.Username);
+                    if (isBan)
+                        BanUser(e.ChatMessage.Channel, e.ChatMessage.Username);
+                    else if (timeoutDuration > 0)
+                        TimeoutUser(e.ChatMessage.Channel, e.ChatMessage.Username, TimeSpan.FromSeconds(timeoutDuration));
+                    else
+                        DeleteMessage(e.ChatMessage.Channel, e.ChatMessage.Id);
                 }
             }
         }
@@ -109,6 +105,42 @@ namespace AppForTwitch
             else
                 isModerator = false;
             OnRoleChecked.Invoke(this, new EventArgs());
+        }
+
+        public void ForbidText(string text, bool ban)
+        {
+            forbiddenText = text;
+            isBan = ban;
+            timeoutDuration = 0;
+        }
+
+        public void ForbidText(string text, int timeout)
+        {
+            forbiddenText = text;
+            isBan = false;
+            timeoutDuration = timeout;
+        }
+        
+        public void CancelTextForbiddance()
+        {
+            forbiddenText = null;
+            isBan = false;
+            timeoutDuration = 0;
+        }
+
+        public void DeleteMessage(string channel, string messageId)
+        {
+            client.DeleteMessage(channel, messageId);
+        }
+
+        public void TimeoutUser(string channel, string user, TimeSpan time)
+        {
+            client.TimeoutUser(channel, user, time);
+        }
+
+        public void BanUser(string channel, string user)
+        {
+            client.BanUser(channel, user);
         }
 
         private void Client_OnBotMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
@@ -159,21 +191,20 @@ namespace AppForTwitch
 
         private void Client_OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
         {
-            //mentionText = null;
-            //mentionText = e.Command.ChatMessage.Message;
-            //mentioner = null;
-            //mentioner = e.Command.ChatMessage.DisplayName;
-            //OnChatMentionReceived.Invoke(this, new EventArgs());
-            //Thread.Sleep(100);
-            string answer;
-            switch (e.Command.CommandText.ToLower())
+            string receivedCommand = "!" + e.Command.CommandText.ToLower();
+            int index = commandList.IndexOf(commandList.SingleOrDefault(command => command.KeyWord.ToLower() == receivedCommand));
+            if (index != -1)
             {
-                case "roll":
+                string answer = commandList[index].Text;
+                if (commandList[index].Requestor)
+                    answer = answer.Replace("{requestor}", e.Command.ChatMessage.DisplayName);
+                if (commandList[index].RandomNumber)
+                {
                     Random rnd = new Random();
-                    var result = rnd.Next(1, 12);
-                    answer = $"@{e.Command.ChatMessage.DisplayName} выбросил {result}";
-                    client.SendMessage(e.Command.ChatMessage.Channel, answer);
-                        break;
+                    var result = rnd.Next(commandList[index].MinNumber, commandList[index].MaxNumber);
+                    answer = answer.Replace("{randomizer}", result.ToString());
+                }
+                client.SendMessage(streamChannel, answer);
             }
         }
 
@@ -185,8 +216,7 @@ namespace AppForTwitch
         private void Client_OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
         {
             client.GetChannelModerators(streamChannel);
-            //client.SendMessage(e.Channel, "VoHiYo");
+            client.SendMessage(e.Channel, "VoHiYo");
         }
-
     }
 }

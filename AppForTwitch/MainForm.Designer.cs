@@ -36,7 +36,7 @@ namespace AppForTwitch
             this.lbl_StreamChannelName = new System.Windows.Forms.Label();
             this.tb_StreamChannelName = new System.Windows.Forms.TextBox();
             this.tc_Main = new System.Windows.Forms.TabControl();
-            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.tabInitialization = new System.Windows.Forms.TabPage();
             this.lLbl_Token = new System.Windows.Forms.LinkLabel();
             this.cb_Remember = new System.Windows.Forms.CheckBox();
             this.lbl_Status = new System.Windows.Forms.Label();
@@ -46,6 +46,21 @@ namespace AppForTwitch
             this.btn_InsertBotName = new System.Windows.Forms.Button();
             this.btn_InsertStreamerName = new System.Windows.Forms.Button();
             this.tabCommands = new System.Windows.Forms.TabPage();
+            this.lbl_Dash = new System.Windows.Forms.Label();
+            this.btn_Random = new System.Windows.Forms.Button();
+            this.btn_Requestor = new System.Windows.Forms.Button();
+            this.btn_Cancel = new System.Windows.Forms.Button();
+            this.btn_Save = new System.Windows.Forms.Button();
+            this.btn_New = new System.Windows.Forms.Button();
+            this.btn_Delete = new System.Windows.Forms.Button();
+            this.btn_Edit = new System.Windows.Forms.Button();
+            this.tb_MaxNumber = new System.Windows.Forms.TextBox();
+            this.tb_MinNumber = new System.Windows.Forms.TextBox();
+            this.tb_CommandText = new System.Windows.Forms.TextBox();
+            this.tb_Command = new System.Windows.Forms.TextBox();
+            this.lb_CommandList = new System.Windows.Forms.ListBox();
+            this.lbl_Commad = new System.Windows.Forms.Label();
+            this.lbl_CommandList = new System.Windows.Forms.Label();
             this.tabChat = new System.Windows.Forms.TabPage();
             this.lbl_Repeats = new System.Windows.Forms.Label();
             this.roundedTB_Repeats = new AppForTwitch.User_Controls.Rounded_Textbox();
@@ -55,20 +70,23 @@ namespace AppForTwitch
             this.tb_Message = new System.Windows.Forms.TextBox();
             this.btn_Send = new System.Windows.Forms.Button();
             this.tabAntispam = new System.Windows.Forms.TabPage();
-            this.lbl_ForbiddenText = new System.Windows.Forms.Label();
-            this.tb_ForbiddenText = new System.Windows.Forms.TextBox();
-            this.gb_Punishment = new System.Windows.Forms.GroupBox();
-            this.btn_Block = new System.Windows.Forms.Button();
-            this.rb_Delete = new System.Windows.Forms.RadioButton();
-            this.rb_Timeout = new System.Windows.Forms.RadioButton();
-            this.rb_Ban = new System.Windows.Forms.RadioButton();
-            this.lbl_Role = new System.Windows.Forms.Label();
-            this.lbl_Mod = new System.Windows.Forms.Label();
             this.btn_Unblock = new System.Windows.Forms.Button();
-            this.lbl_Sec = new System.Windows.Forms.Label();
+            this.lbl_Mod = new System.Windows.Forms.Label();
+            this.lbl_Role = new System.Windows.Forms.Label();
+            this.btn_Block = new System.Windows.Forms.Button();
+            this.gb_Punishment = new System.Windows.Forms.GroupBox();
+            this.lbl_SelectedPunishment = new System.Windows.Forms.Label();
+            this.lbl_Current = new System.Windows.Forms.Label();
             this.tb_Timeout = new System.Windows.Forms.TextBox();
+            this.lbl_Sec = new System.Windows.Forms.Label();
+            this.rb_Ban = new System.Windows.Forms.RadioButton();
+            this.rb_Timeout = new System.Windows.Forms.RadioButton();
+            this.rb_Delete = new System.Windows.Forms.RadioButton();
+            this.tb_ForbiddenText = new System.Windows.Forms.TextBox();
+            this.lbl_ForbiddenText = new System.Windows.Forms.Label();
             this.tc_Main.SuspendLayout();
-            this.tabSettings.SuspendLayout();
+            this.tabInitialization.SuspendLayout();
+            this.tabCommands.SuspendLayout();
             this.tabChat.SuspendLayout();
             this.tabAntispam.SuspendLayout();
             this.gb_Punishment.SuspendLayout();
@@ -125,7 +143,7 @@ namespace AppForTwitch
             // 
             // tc_Main
             // 
-            this.tc_Main.Controls.Add(this.tabSettings);
+            this.tc_Main.Controls.Add(this.tabInitialization);
             this.tc_Main.Controls.Add(this.tabCommands);
             this.tc_Main.Controls.Add(this.tabChat);
             this.tc_Main.Controls.Add(this.tabAntispam);
@@ -137,29 +155,29 @@ namespace AppForTwitch
             this.tc_Main.TabIndex = 6;
             this.tc_Main.TabStop = false;
             // 
-            // tabSettings
+            // tabInitialization
             // 
-            this.tabSettings.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.tabSettings.Controls.Add(this.lLbl_Token);
-            this.tabSettings.Controls.Add(this.cb_Remember);
-            this.tabSettings.Controls.Add(this.lbl_Status);
-            this.tabSettings.Controls.Add(this.lbl_StatusHeader);
-            this.tabSettings.Controls.Add(this.btn_Start);
-            this.tabSettings.Controls.Add(this.btn_InsertToken);
-            this.tabSettings.Controls.Add(this.btn_InsertBotName);
-            this.tabSettings.Controls.Add(this.btn_InsertStreamerName);
-            this.tabSettings.Controls.Add(this.tb_Token);
-            this.tabSettings.Controls.Add(this.tb_StreamChannelName);
-            this.tabSettings.Controls.Add(this.lbl_StreamChannelName);
-            this.tabSettings.Controls.Add(this.lbl_BotChannelName);
-            this.tabSettings.Controls.Add(this.tb_BotChannelName);
-            this.tabSettings.ImageIndex = 0;
-            this.tabSettings.Location = new System.Drawing.Point(4, 29);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(584, 335);
-            this.tabSettings.TabIndex = 0;
-            this.tabSettings.Text = "Settings";
+            this.tabInitialization.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tabInitialization.Controls.Add(this.lLbl_Token);
+            this.tabInitialization.Controls.Add(this.cb_Remember);
+            this.tabInitialization.Controls.Add(this.lbl_Status);
+            this.tabInitialization.Controls.Add(this.lbl_StatusHeader);
+            this.tabInitialization.Controls.Add(this.btn_Start);
+            this.tabInitialization.Controls.Add(this.btn_InsertToken);
+            this.tabInitialization.Controls.Add(this.btn_InsertBotName);
+            this.tabInitialization.Controls.Add(this.btn_InsertStreamerName);
+            this.tabInitialization.Controls.Add(this.tb_Token);
+            this.tabInitialization.Controls.Add(this.tb_StreamChannelName);
+            this.tabInitialization.Controls.Add(this.lbl_StreamChannelName);
+            this.tabInitialization.Controls.Add(this.lbl_BotChannelName);
+            this.tabInitialization.Controls.Add(this.tb_BotChannelName);
+            this.tabInitialization.ImageIndex = 0;
+            this.tabInitialization.Location = new System.Drawing.Point(4, 29);
+            this.tabInitialization.Name = "tabInitialization";
+            this.tabInitialization.Padding = new System.Windows.Forms.Padding(3);
+            this.tabInitialization.Size = new System.Drawing.Size(584, 335);
+            this.tabInitialization.TabIndex = 0;
+            this.tabInitialization.Text = "Initialization";
             // 
             // lLbl_Token
             // 
@@ -266,12 +284,192 @@ namespace AppForTwitch
             // tabCommands
             // 
             this.tabCommands.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.tabCommands.Controls.Add(this.lbl_Dash);
+            this.tabCommands.Controls.Add(this.btn_Random);
+            this.tabCommands.Controls.Add(this.btn_Requestor);
+            this.tabCommands.Controls.Add(this.btn_Cancel);
+            this.tabCommands.Controls.Add(this.btn_Save);
+            this.tabCommands.Controls.Add(this.btn_New);
+            this.tabCommands.Controls.Add(this.btn_Delete);
+            this.tabCommands.Controls.Add(this.btn_Edit);
+            this.tabCommands.Controls.Add(this.tb_MaxNumber);
+            this.tabCommands.Controls.Add(this.tb_MinNumber);
+            this.tabCommands.Controls.Add(this.tb_CommandText);
+            this.tabCommands.Controls.Add(this.tb_Command);
+            this.tabCommands.Controls.Add(this.lb_CommandList);
+            this.tabCommands.Controls.Add(this.lbl_Commad);
+            this.tabCommands.Controls.Add(this.lbl_CommandList);
             this.tabCommands.Location = new System.Drawing.Point(4, 29);
             this.tabCommands.Name = "tabCommands";
             this.tabCommands.Padding = new System.Windows.Forms.Padding(3);
             this.tabCommands.Size = new System.Drawing.Size(584, 335);
             this.tabCommands.TabIndex = 1;
             this.tabCommands.Text = "Commands";
+            // 
+            // lbl_Dash
+            // 
+            this.lbl_Dash.AutoSize = true;
+            this.lbl_Dash.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Dash.Location = new System.Drawing.Point(521, 28);
+            this.lbl_Dash.Name = "lbl_Dash";
+            this.lbl_Dash.Size = new System.Drawing.Size(17, 20);
+            this.lbl_Dash.TabIndex = 14;
+            this.lbl_Dash.Text = "–";
+            // 
+            // btn_Random
+            // 
+            this.btn_Random.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Random.Enabled = false;
+            this.btn_Random.Location = new System.Drawing.Point(392, 23);
+            this.btn_Random.Name = "btn_Random";
+            this.btn_Random.Size = new System.Drawing.Size(86, 29);
+            this.btn_Random.TabIndex = 13;
+            this.btn_Random.Text = "Random";
+            this.btn_Random.UseVisualStyleBackColor = false;
+            this.btn_Random.Click += new System.EventHandler(this.btn_Random_Click);
+            // 
+            // btn_Requestor
+            // 
+            this.btn_Requestor.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Requestor.Enabled = false;
+            this.btn_Requestor.Location = new System.Drawing.Point(300, 23);
+            this.btn_Requestor.Name = "btn_Requestor";
+            this.btn_Requestor.Size = new System.Drawing.Size(86, 29);
+            this.btn_Requestor.TabIndex = 12;
+            this.btn_Requestor.Text = "Requestor";
+            this.btn_Requestor.UseVisualStyleBackColor = false;
+            this.btn_Requestor.Click += new System.EventHandler(this.btn_Requestor_Click);
+            // 
+            // btn_Cancel
+            // 
+            this.btn_Cancel.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Cancel.Enabled = false;
+            this.btn_Cancel.Location = new System.Drawing.Point(501, 297);
+            this.btn_Cancel.Name = "btn_Cancel";
+            this.btn_Cancel.Size = new System.Drawing.Size(70, 29);
+            this.btn_Cancel.TabIndex = 11;
+            this.btn_Cancel.Text = "Cancel";
+            this.btn_Cancel.UseVisualStyleBackColor = false;
+            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Save.Enabled = false;
+            this.btn_Save.Location = new System.Drawing.Point(425, 297);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(70, 29);
+            this.btn_Save.TabIndex = 10;
+            this.btn_Save.Text = "Save";
+            this.btn_Save.UseVisualStyleBackColor = false;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            // 
+            // btn_New
+            // 
+            this.btn_New.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_New.Location = new System.Drawing.Point(349, 297);
+            this.btn_New.Name = "btn_New";
+            this.btn_New.Size = new System.Drawing.Size(70, 29);
+            this.btn_New.TabIndex = 1;
+            this.btn_New.Text = "New";
+            this.btn_New.UseVisualStyleBackColor = false;
+            this.btn_New.Click += new System.EventHandler(this.btn_New_Click);
+            // 
+            // btn_Delete
+            // 
+            this.btn_Delete.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Delete.Enabled = false;
+            this.btn_Delete.Location = new System.Drawing.Point(88, 297);
+            this.btn_Delete.Name = "btn_Delete";
+            this.btn_Delete.Size = new System.Drawing.Size(70, 29);
+            this.btn_Delete.TabIndex = 8;
+            this.btn_Delete.Text = "Delete";
+            this.btn_Delete.UseVisualStyleBackColor = false;
+            this.btn_Delete.Click += new System.EventHandler(this.btn_Delete_Click);
+            // 
+            // btn_Edit
+            // 
+            this.btn_Edit.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Edit.Enabled = false;
+            this.btn_Edit.Location = new System.Drawing.Point(12, 297);
+            this.btn_Edit.Name = "btn_Edit";
+            this.btn_Edit.Size = new System.Drawing.Size(70, 29);
+            this.btn_Edit.TabIndex = 7;
+            this.btn_Edit.Text = "Edit";
+            this.btn_Edit.UseVisualStyleBackColor = false;
+            this.btn_Edit.Click += new System.EventHandler(this.btn_Edit_Click);
+            // 
+            // tb_MaxNumber
+            // 
+            this.tb_MaxNumber.Enabled = false;
+            this.tb_MaxNumber.Location = new System.Drawing.Point(538, 24);
+            this.tb_MaxNumber.MaxLength = 3;
+            this.tb_MaxNumber.Name = "tb_MaxNumber";
+            this.tb_MaxNumber.Size = new System.Drawing.Size(34, 27);
+            this.tb_MaxNumber.TabIndex = 6;
+            this.tb_MaxNumber.Text = "12";
+            this.tb_MaxNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_MaxNumber_KeyPress);
+            this.tb_MaxNumber.Leave += new System.EventHandler(this.tb_MaxNumber_Leave);
+            // 
+            // tb_MinNumber
+            // 
+            this.tb_MinNumber.Enabled = false;
+            this.tb_MinNumber.Location = new System.Drawing.Point(484, 24);
+            this.tb_MinNumber.MaxLength = 3;
+            this.tb_MinNumber.Name = "tb_MinNumber";
+            this.tb_MinNumber.Size = new System.Drawing.Size(34, 27);
+            this.tb_MinNumber.TabIndex = 5;
+            this.tb_MinNumber.Text = "1";
+            this.tb_MinNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_MinNumber_KeyPress);
+            this.tb_MinNumber.Leave += new System.EventHandler(this.tb_MinNumber_Leave);
+            // 
+            // tb_CommandText
+            // 
+            this.tb_CommandText.Enabled = false;
+            this.tb_CommandText.Location = new System.Drawing.Point(169, 59);
+            this.tb_CommandText.Multiline = true;
+            this.tb_CommandText.Name = "tb_CommandText";
+            this.tb_CommandText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_CommandText.Size = new System.Drawing.Size(402, 230);
+            this.tb_CommandText.TabIndex = 4;
+            // 
+            // tb_Command
+            // 
+            this.tb_Command.Enabled = false;
+            this.tb_Command.Location = new System.Drawing.Point(169, 24);
+            this.tb_Command.Name = "tb_Command";
+            this.tb_Command.Size = new System.Drawing.Size(125, 27);
+            this.tb_Command.TabIndex = 3;
+            // 
+            // lb_CommandList
+            // 
+            this.lb_CommandList.FormattingEnabled = true;
+            this.lb_CommandList.ItemHeight = 20;
+            this.lb_CommandList.Location = new System.Drawing.Point(13, 25);
+            this.lb_CommandList.Name = "lb_CommandList";
+            this.lb_CommandList.Size = new System.Drawing.Size(146, 264);
+            this.lb_CommandList.TabIndex = 2;
+            this.lb_CommandList.SelectedIndexChanged += new System.EventHandler(this.lb_CommandList_SelectedIndexChanged);
+            // 
+            // lbl_Commad
+            // 
+            this.lbl_Commad.AutoSize = true;
+            this.lbl_Commad.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Commad.Location = new System.Drawing.Point(169, 2);
+            this.lbl_Commad.Name = "lbl_Commad";
+            this.lbl_Commad.Size = new System.Drawing.Size(80, 20);
+            this.lbl_Commad.TabIndex = 1;
+            this.lbl_Commad.Text = "Command";
+            // 
+            // lbl_CommandList
+            // 
+            this.lbl_CommandList.AutoSize = true;
+            this.lbl_CommandList.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_CommandList.Location = new System.Drawing.Point(12, 2);
+            this.lbl_CommandList.Name = "lbl_CommandList";
+            this.lbl_CommandList.Size = new System.Drawing.Size(104, 20);
+            this.lbl_CommandList.TabIndex = 0;
+            this.lbl_CommandList.Text = "Command list";
             // 
             // tabChat
             // 
@@ -396,94 +594,18 @@ namespace AppForTwitch
             this.tabAntispam.TabIndex = 3;
             this.tabAntispam.Text = "Antispam";
             // 
-            // lbl_ForbiddenText
+            // btn_Unblock
             // 
-            this.lbl_ForbiddenText.AutoSize = true;
-            this.lbl_ForbiddenText.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_ForbiddenText.Location = new System.Drawing.Point(12, 6);
-            this.lbl_ForbiddenText.Name = "lbl_ForbiddenText";
-            this.lbl_ForbiddenText.Size = new System.Drawing.Size(108, 20);
-            this.lbl_ForbiddenText.TabIndex = 0;
-            this.lbl_ForbiddenText.Text = "Forbidden text";
-            // 
-            // tb_ForbiddenText
-            // 
-            this.tb_ForbiddenText.Location = new System.Drawing.Point(12, 29);
-            this.tb_ForbiddenText.Multiline = true;
-            this.tb_ForbiddenText.Name = "tb_ForbiddenText";
-            this.tb_ForbiddenText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tb_ForbiddenText.Size = new System.Drawing.Size(560, 152);
-            this.tb_ForbiddenText.TabIndex = 1;
-            // 
-            // gb_Punishment
-            // 
-            this.gb_Punishment.Controls.Add(this.tb_Timeout);
-            this.gb_Punishment.Controls.Add(this.lbl_Sec);
-            this.gb_Punishment.Controls.Add(this.rb_Ban);
-            this.gb_Punishment.Controls.Add(this.rb_Timeout);
-            this.gb_Punishment.Controls.Add(this.rb_Delete);
-            this.gb_Punishment.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.gb_Punishment.Location = new System.Drawing.Point(12, 187);
-            this.gb_Punishment.Name = "gb_Punishment";
-            this.gb_Punishment.Size = new System.Drawing.Size(275, 120);
-            this.gb_Punishment.TabIndex = 2;
-            this.gb_Punishment.TabStop = false;
-            this.gb_Punishment.Text = "Punishment";
-            // 
-            // btn_Block
-            // 
-            this.btn_Block.BackColor = System.Drawing.SystemColors.Window;
-            this.btn_Block.Location = new System.Drawing.Point(297, 196);
-            this.btn_Block.Name = "btn_Block";
-            this.btn_Block.Size = new System.Drawing.Size(275, 50);
-            this.btn_Block.TabIndex = 3;
-            this.btn_Block.TabStop = false;
-            this.btn_Block.Text = "Block";
-            this.btn_Block.UseVisualStyleBackColor = false;
-            this.btn_Block.Click += new System.EventHandler(this.btn_Block_Click);
-            // 
-            // rb_Delete
-            // 
-            this.rb_Delete.AutoSize = true;
-            this.rb_Delete.Location = new System.Drawing.Point(6, 25);
-            this.rb_Delete.Name = "rb_Delete";
-            this.rb_Delete.Size = new System.Drawing.Size(134, 24);
-            this.rb_Delete.TabIndex = 4;
-            this.rb_Delete.TabStop = true;
-            this.rb_Delete.Text = "Delete message";
-            this.rb_Delete.UseVisualStyleBackColor = true;
-            // 
-            // rb_Timeout
-            // 
-            this.rb_Timeout.AutoSize = true;
-            this.rb_Timeout.Location = new System.Drawing.Point(6, 55);
-            this.rb_Timeout.Name = "rb_Timeout";
-            this.rb_Timeout.Size = new System.Drawing.Size(116, 24);
-            this.rb_Timeout.TabIndex = 5;
-            this.rb_Timeout.TabStop = true;
-            this.rb_Timeout.Text = "Timeout user";
-            this.rb_Timeout.UseVisualStyleBackColor = true;
-            // 
-            // rb_Ban
-            // 
-            this.rb_Ban.AutoSize = true;
-            this.rb_Ban.Location = new System.Drawing.Point(6, 85);
-            this.rb_Ban.Name = "rb_Ban";
-            this.rb_Ban.Size = new System.Drawing.Size(86, 24);
-            this.rb_Ban.TabIndex = 6;
-            this.rb_Ban.TabStop = true;
-            this.rb_Ban.Text = "Ban user";
-            this.rb_Ban.UseVisualStyleBackColor = true;
-            // 
-            // lbl_Role
-            // 
-            this.lbl_Role.AutoSize = true;
-            this.lbl_Role.ForeColor = System.Drawing.Color.Plum;
-            this.lbl_Role.Location = new System.Drawing.Point(406, 6);
-            this.lbl_Role.Name = "lbl_Role";
-            this.lbl_Role.Size = new System.Drawing.Size(42, 20);
-            this.lbl_Role.TabIndex = 4;
-            this.lbl_Role.Text = "Role:";
+            this.btn_Unblock.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Unblock.Enabled = false;
+            this.btn_Unblock.Location = new System.Drawing.Point(297, 257);
+            this.btn_Unblock.Name = "btn_Unblock";
+            this.btn_Unblock.Size = new System.Drawing.Size(275, 50);
+            this.btn_Unblock.TabIndex = 7;
+            this.btn_Unblock.TabStop = false;
+            this.btn_Unblock.Text = "Unblock";
+            this.btn_Unblock.UseVisualStyleBackColor = false;
+            this.btn_Unblock.Click += new System.EventHandler(this.btn_Unblock_Click);
             // 
             // lbl_Mod
             // 
@@ -495,36 +617,138 @@ namespace AppForTwitch
             this.lbl_Mod.TabIndex = 6;
             this.lbl_Mod.Text = "Not a moderator";
             // 
-            // btn_Unblock
+            // lbl_Role
             // 
-            this.btn_Unblock.BackColor = System.Drawing.SystemColors.Window;
-            this.btn_Unblock.Location = new System.Drawing.Point(297, 257);
-            this.btn_Unblock.Name = "btn_Unblock";
-            this.btn_Unblock.Size = new System.Drawing.Size(275, 50);
-            this.btn_Unblock.TabIndex = 7;
-            this.btn_Unblock.TabStop = false;
-            this.btn_Unblock.Text = "Unblock";
-            this.btn_Unblock.UseVisualStyleBackColor = false;
+            this.lbl_Role.AutoSize = true;
+            this.lbl_Role.ForeColor = System.Drawing.Color.Plum;
+            this.lbl_Role.Location = new System.Drawing.Point(406, 6);
+            this.lbl_Role.Name = "lbl_Role";
+            this.lbl_Role.Size = new System.Drawing.Size(42, 20);
+            this.lbl_Role.TabIndex = 4;
+            this.lbl_Role.Text = "Role:";
             // 
-            // lbl_Sec
+            // btn_Block
             // 
-            this.lbl_Sec.AutoSize = true;
-            this.lbl_Sec.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Sec.Location = new System.Drawing.Point(237, 57);
-            this.lbl_Sec.Name = "lbl_Sec";
-            this.lbl_Sec.Size = new System.Drawing.Size(30, 20);
-            this.lbl_Sec.TabIndex = 8;
-            this.lbl_Sec.Text = "sec";
+            this.btn_Block.BackColor = System.Drawing.SystemColors.Window;
+            this.btn_Block.Enabled = false;
+            this.btn_Block.Location = new System.Drawing.Point(297, 196);
+            this.btn_Block.Name = "btn_Block";
+            this.btn_Block.Size = new System.Drawing.Size(275, 50);
+            this.btn_Block.TabIndex = 3;
+            this.btn_Block.TabStop = false;
+            this.btn_Block.Text = "Block";
+            this.btn_Block.UseVisualStyleBackColor = false;
+            this.btn_Block.Click += new System.EventHandler(this.btn_Block_Click);
+            // 
+            // gb_Punishment
+            // 
+            this.gb_Punishment.Controls.Add(this.lbl_SelectedPunishment);
+            this.gb_Punishment.Controls.Add(this.lbl_Current);
+            this.gb_Punishment.Controls.Add(this.tb_Timeout);
+            this.gb_Punishment.Controls.Add(this.lbl_Sec);
+            this.gb_Punishment.Controls.Add(this.rb_Ban);
+            this.gb_Punishment.Controls.Add(this.rb_Timeout);
+            this.gb_Punishment.Controls.Add(this.rb_Delete);
+            this.gb_Punishment.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.gb_Punishment.Location = new System.Drawing.Point(12, 187);
+            this.gb_Punishment.Name = "gb_Punishment";
+            this.gb_Punishment.Size = new System.Drawing.Size(275, 136);
+            this.gb_Punishment.TabIndex = 2;
+            this.gb_Punishment.TabStop = false;
+            this.gb_Punishment.Text = "Punishment";
+            // 
+            // lbl_SelectedPunishment
+            // 
+            this.lbl_SelectedPunishment.AutoSize = true;
+            this.lbl_SelectedPunishment.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_SelectedPunishment.Location = new System.Drawing.Point(68, 109);
+            this.lbl_SelectedPunishment.Name = "lbl_SelectedPunishment";
+            this.lbl_SelectedPunishment.Size = new System.Drawing.Size(106, 20);
+            this.lbl_SelectedPunishment.TabIndex = 10;
+            this.lbl_SelectedPunishment.Text = "Not forbidden";
+            // 
+            // lbl_Current
+            // 
+            this.lbl_Current.AutoSize = true;
+            this.lbl_Current.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Current.Location = new System.Drawing.Point(6, 109);
+            this.lbl_Current.Name = "lbl_Current";
+            this.lbl_Current.Size = new System.Drawing.Size(63, 20);
+            this.lbl_Current.TabIndex = 9;
+            this.lbl_Current.Text = "Current:";
             // 
             // tb_Timeout
             // 
-            this.tb_Timeout.Location = new System.Drawing.Point(131, 54);
+            this.tb_Timeout.Location = new System.Drawing.Point(131, 51);
             this.tb_Timeout.Name = "tb_Timeout";
             this.tb_Timeout.Size = new System.Drawing.Size(100, 27);
             this.tb_Timeout.TabIndex = 8;
             this.tb_Timeout.Text = "600";
             this.tb_Timeout.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_Timeout_KeyPress);
             this.tb_Timeout.Leave += new System.EventHandler(this.tb_Timeout_Leave);
+            // 
+            // lbl_Sec
+            // 
+            this.lbl_Sec.AutoSize = true;
+            this.lbl_Sec.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Sec.Location = new System.Drawing.Point(237, 54);
+            this.lbl_Sec.Name = "lbl_Sec";
+            this.lbl_Sec.Size = new System.Drawing.Size(30, 20);
+            this.lbl_Sec.TabIndex = 8;
+            this.lbl_Sec.Text = "sec";
+            // 
+            // rb_Ban
+            // 
+            this.rb_Ban.AutoSize = true;
+            this.rb_Ban.Location = new System.Drawing.Point(6, 80);
+            this.rb_Ban.Name = "rb_Ban";
+            this.rb_Ban.Size = new System.Drawing.Size(86, 24);
+            this.rb_Ban.TabIndex = 6;
+            this.rb_Ban.TabStop = true;
+            this.rb_Ban.Text = "Ban user";
+            this.rb_Ban.UseVisualStyleBackColor = true;
+            // 
+            // rb_Timeout
+            // 
+            this.rb_Timeout.AutoSize = true;
+            this.rb_Timeout.Location = new System.Drawing.Point(6, 51);
+            this.rb_Timeout.Name = "rb_Timeout";
+            this.rb_Timeout.Size = new System.Drawing.Size(116, 24);
+            this.rb_Timeout.TabIndex = 5;
+            this.rb_Timeout.TabStop = true;
+            this.rb_Timeout.Text = "Timeout user";
+            this.rb_Timeout.UseVisualStyleBackColor = true;
+            // 
+            // rb_Delete
+            // 
+            this.rb_Delete.AutoSize = true;
+            this.rb_Delete.Checked = true;
+            this.rb_Delete.Location = new System.Drawing.Point(6, 22);
+            this.rb_Delete.Name = "rb_Delete";
+            this.rb_Delete.Size = new System.Drawing.Size(134, 24);
+            this.rb_Delete.TabIndex = 4;
+            this.rb_Delete.TabStop = true;
+            this.rb_Delete.Text = "Delete message";
+            this.rb_Delete.UseVisualStyleBackColor = true;
+            // 
+            // tb_ForbiddenText
+            // 
+            this.tb_ForbiddenText.Location = new System.Drawing.Point(12, 29);
+            this.tb_ForbiddenText.Multiline = true;
+            this.tb_ForbiddenText.Name = "tb_ForbiddenText";
+            this.tb_ForbiddenText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_ForbiddenText.Size = new System.Drawing.Size(560, 152);
+            this.tb_ForbiddenText.TabIndex = 1;
+            // 
+            // lbl_ForbiddenText
+            // 
+            this.lbl_ForbiddenText.AutoSize = true;
+            this.lbl_ForbiddenText.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_ForbiddenText.Location = new System.Drawing.Point(12, 6);
+            this.lbl_ForbiddenText.Name = "lbl_ForbiddenText";
+            this.lbl_ForbiddenText.Size = new System.Drawing.Size(108, 20);
+            this.lbl_ForbiddenText.TabIndex = 0;
+            this.lbl_ForbiddenText.Text = "Forbidden text";
             // 
             // MainForm
             // 
@@ -541,8 +765,10 @@ namespace AppForTwitch
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tc_Main.ResumeLayout(false);
-            this.tabSettings.ResumeLayout(false);
-            this.tabSettings.PerformLayout();
+            this.tabInitialization.ResumeLayout(false);
+            this.tabInitialization.PerformLayout();
+            this.tabCommands.ResumeLayout(false);
+            this.tabCommands.PerformLayout();
             this.tabChat.ResumeLayout(false);
             this.tabChat.PerformLayout();
             this.tabAntispam.ResumeLayout(false);
@@ -560,7 +786,7 @@ namespace AppForTwitch
         private System.Windows.Forms.Label lbl_StreamChannelName;
         private System.Windows.Forms.TextBox tb_StreamChannelName;
         private System.Windows.Forms.TabControl tc_Main;
-        private System.Windows.Forms.TabPage tabSettings;
+        private System.Windows.Forms.TabPage tabInitialization;
         private System.Windows.Forms.TabPage tabCommands;
         private System.Windows.Forms.Button btn_InsertStreamerName;
         private System.Windows.Forms.Button btn_InsertToken;
@@ -591,6 +817,23 @@ namespace AppForTwitch
         private System.Windows.Forms.RadioButton rb_Delete;
         private System.Windows.Forms.TextBox tb_ForbiddenText;
         private System.Windows.Forms.Label lbl_ForbiddenText;
+        private System.Windows.Forms.Label lbl_SelectedPunishment;
+        private System.Windows.Forms.Label lbl_Current;
+        private System.Windows.Forms.Label lbl_Dash;
+        private System.Windows.Forms.Button btn_Random;
+        private System.Windows.Forms.Button btn_Requestor;
+        private System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.Button btn_Save;
+        private System.Windows.Forms.Button btn_New;
+        private System.Windows.Forms.Button btn_Delete;
+        private System.Windows.Forms.Button btn_Edit;
+        private System.Windows.Forms.TextBox tb_MaxNumber;
+        private System.Windows.Forms.TextBox tb_MinNumber;
+        private System.Windows.Forms.TextBox tb_CommandText;
+        private System.Windows.Forms.TextBox tb_Command;
+        private System.Windows.Forms.ListBox lb_CommandList;
+        private System.Windows.Forms.Label lbl_Commad;
+        private System.Windows.Forms.Label lbl_CommandList;
     }
 }
 
