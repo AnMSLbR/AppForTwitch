@@ -353,21 +353,29 @@ namespace AppForTwitch
         }
         private void btn_Block_Click(object sender, EventArgs e)
         {
-            if(rb_Delete.Checked)
+            if (String.IsNullOrEmpty(tb_ForbiddenText.Text))
             {
-                bot.ForbidText(tb_ForbiddenText.Text, false);
-                lbl_SelectedPunishment.Text = "Delete";
+                MessageBox.Show("Input a forbidden text");
             }
-            else if (rb_Timeout.Checked)
+            else
             {
-                bot.ForbidText(tb_ForbiddenText.Text, Convert.ToInt32(tb_Timeout.Text));
-                lbl_SelectedPunishment.Text = $"Timeout on {tb_Timeout.Text} sec";
+                if (rb_Delete.Checked)
+                {
+                    bot.ForbidText(tb_ForbiddenText.Text, false);
+                    lbl_SelectedPunishment.Text = "Delete";
+                }
+                else if (rb_Timeout.Checked)
+                {
+                    bot.ForbidText(tb_ForbiddenText.Text, Convert.ToInt32(tb_Timeout.Text));
+                    lbl_SelectedPunishment.Text = $"Timeout on {tb_Timeout.Text} sec";
+                }
+                else if (rb_Ban.Checked)
+                {
+                    bot.ForbidText(tb_ForbiddenText.Text, true);
+                    lbl_SelectedPunishment.Text = "Ban";
+                }
             }
-            else if (rb_Ban.Checked)
-            {
-                bot.ForbidText(tb_ForbiddenText.Text, true);
-                lbl_SelectedPunishment.Text = "Ban";
-            }
+
         }
 
         private void btn_Unblock_Click(object sender, EventArgs e)

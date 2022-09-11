@@ -84,7 +84,7 @@ namespace AppForTwitch
 
         private void Client_OnSpamReceived(object sender, OnMessageReceivedArgs e)
         {
-            if (forbiddenText != null && e.ChatMessage.Message.ToLower().Contains(forbiddenText.ToLower())) 
+            if (!String.IsNullOrEmpty(forbiddenText) && e.ChatMessage.Message.ToLower().Contains(forbiddenText.ToLower())) 
             {
                 if (!e.ChatMessage.IsBroadcaster && !e.ChatMessage.IsModerator)
                 {
