@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace AppForTwitch
 {
-    class Command
+    [Serializable]
+    public class Command
     {
         private string keyWord;
         private string text;
@@ -14,6 +15,8 @@ namespace AppForTwitch
         private bool randomNumber = false;
         private int minNumber = 0;
         private int maxNumber = 0;
+
+        public Command() { }
 
         public string KeyWord { get => keyWord; set => keyWord = value; }
         public string Text { get => text; set => text = value; }

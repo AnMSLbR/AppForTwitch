@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Media;
 using System.IO;
 using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace AppForTwitch
 {
@@ -14,6 +15,7 @@ namespace AppForTwitch
         private Bot bot;
         private SoundPlayer sound;
         private BindingList<Command> commandList;
+        private bool isListChange = false;
         public MainForm()
         {
             InitializeComponent();
@@ -27,12 +29,17 @@ namespace AppForTwitch
             Stream str = Properties.Resources.mention_notification;
             sound = new SoundPlayer(str);
             commandList = new BindingList<Command>();
+            LoadCommandList();
             lb_CommandList.DataSource = commandList;
             lb_CommandList.DisplayMember = "KeyWord";
+            commandList.ListChanged += new ListChangedEventHandler(commandList_ListChanged);      
         }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSoundButtonStatus();
+            if (isListChange)
+                SaveCommandList();
         }
 
         private void btn_InsertToken_Click(object sender, EventArgs e)
@@ -130,6 +137,64 @@ namespace AppForTwitch
             }
         }
 
+        private void SaveCommandList()
+        {
+            try
+            {
+                if (commandList.Count != 0)
+                {
+                    SerializeCommandListToXml(commandList);
+                }
+                else
+                {
+                    File.Delete("Commands.xml");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
+        private void LoadCommandList()
+        {
+            try
+            {
+                if (File.Exists("Commands.xml"))
+                {
+                    commandList = DeserializeXmlToCommandList();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Invalid Commands.xml file", "Error");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
+        private void SerializeCommandListToXml(BindingList<Command> list)
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(BindingList<Command>));
+
+            using (FileStream fs = new FileStream("Commands.xml", FileMode.Create))
+            {
+                xml.Serialize(fs, list);
+            }
+        }
+
+        private BindingList<Command> DeserializeXmlToCommandList()
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(BindingList<Command>));
+
+            using (FileStream fs = new FileStream("Commands.xml", FileMode.OpenOrCreate))
+            {
+                return (BindingList<Command>)xml.Deserialize(fs);
+            }
+        }
+
         private void lLbl_Token_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ProcessStartInfo sInfo = new ProcessStartInfo("https://www.twitchapps.com/tmi/")
@@ -138,6 +203,10 @@ namespace AppForTwitch
                 Verb = "open"
             };
             Process.Start(sInfo);
+        }
+        private void commandList_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            isListChange = true;
         }
 
         #region Chat Tab
