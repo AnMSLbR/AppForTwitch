@@ -10,3 +10,6 @@ An application for Twitch Chat with various functions:
 
 ## Dependencies
 TwitchLib ([Github](https://github.com/TwitchLib/TwitchLib))
+
+## Downloads
+App on Windows are available in the [Releases](https://github.com/AnMSLbR/AppForTwitch/releases) section.
