@@ -8,6 +8,10 @@ An application for Twitch Chat with various functions:
 + Creating chat commands
 + Punishment for sending specific spam messages (only with moderator functionality)
 
+![Внешний вид 1](https://cdn.discordapp.com/attachments/828381311831375914/1034284284409806878/1.png)
+
+![Внешний вид 1](https://cdn.discordapp.com/attachments/828381311831375914/1034284618570006698/2.png)
+
 ## Dependencies
 TwitchLib ([Github](https://github.com/TwitchLib/TwitchLib))
 
